@@ -14,12 +14,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
     FragmentHomeBinding::inflate
 ) {
 
+    override val viewModel by viewModels<HomeViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        viewModel.getLocation()
     }
 
-    override val viewModel by viewModels<HomeViewModel>()
+
 
     override fun onCreateFinished() {
 
