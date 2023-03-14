@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface ApiFactory {
 
-    @GET("/location")
+    @GET("location")
     suspend fun getLocation() : LocationResponse
 
 }

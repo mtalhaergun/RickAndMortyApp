@@ -7,6 +7,9 @@
         <variable
             name="location"
             type="com.example.rickandmortyapp.model.location.Result" />
+        <variable
+            name="locationClickListener"
+            type="com.example.rickandmortyapp.ui.home.LocationClickListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -19,7 +22,8 @@
         app:strokeWidth="3dp"
         app:strokeColor="@color/location_border_text"
         app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true">
+        app:cardUseCompatPadding="true"
+        android:onClick="@{() -> locationClickListener.onLocationClick(location)}">
 
         <RelativeLayout
             android:layout_width="wrap_content"
