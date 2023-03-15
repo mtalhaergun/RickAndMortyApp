@@ -11,8 +11,12 @@ class HomeRepository @Inject constructor(private val apiFactory: ApiFactory) : B
         apiFactory.getLocation()
     }
 
-    suspend fun getCharacters(ids : String) = safeApiRequest {
-        apiFactory.getCharacters(ids)
+    suspend fun getMultipleCharacters(ids : String) = safeApiRequest {
+        apiFactory.getMultipleCharacters(ids)
+    }
+
+    suspend fun getSingleCharacter(id : String) = safeApiRequest {
+        apiFactory.getCharacter(id)
     }
 
     fun selectIds(residents : List<String?>?) : String?{
@@ -21,7 +25,7 @@ class HomeRepository @Inject constructor(private val apiFactory: ApiFactory) : B
         if (residents != null) {
             for(item in residents){
                 if (item != null) {
-                    idList = item.split("character/")
+                    idList = item.split(DELIMITER)
                     if(ids == null){
                         ids = idList[1]
                     }else{
@@ -29,11 +33,8 @@ class HomeRepository @Inject constructor(private val apiFactory: ApiFactory) : B
                     }
                 }
             }
-        }else{
-
         }
         println(ids)
         return ids
     }
-
 }

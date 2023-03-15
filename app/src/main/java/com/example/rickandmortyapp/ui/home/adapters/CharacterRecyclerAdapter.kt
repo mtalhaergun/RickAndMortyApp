@@ -35,7 +35,7 @@ class CharacterRecyclerAdapter (private val listener : CharacterClickListener) :
         return characters.size
     }
 
-    fun setCharacters(list : List<CharacterResponseItem>){
+    fun setCharacters(list : ArrayList<CharacterResponseItem>){
         characters = list
         notifyDataSetChanged()
     }

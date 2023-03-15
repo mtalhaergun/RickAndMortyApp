@@ -26,8 +26,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
         viewModel.getLocation()
     }
 
-
-
     override fun onCreateFinished() {
 
     }
@@ -37,9 +35,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
             val adapter = LocationRecyclerAdapter(object : LocationClickListener {
                 override fun onLocationClick(location: Result) {
                     val characterIds = viewModel.selectIds(location.residents)
-                    if (characterIds != null) {
-                        viewModel.getCharacters(characterIds)
-                    }else{
+                    if (characterIds != null && location.residents!!.size > 1) {
+                        viewModel.getMultipleCharacters(characterIds)
+                    }
+                    else if(characterIds != null && location.residents!!.size == 1){
+                        viewModel.getSingleCharacter(characterIds)
+                    }
+                    else{
                         binding.characterRv.adapter = null
                     }
                 }
@@ -50,7 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
             }
         })
 
-        viewModel.characterResponse.observe(viewLifecycleOwner, Observer {
+        viewModel.multipleCharacterResponse.observe(viewLifecycleOwner, Observer {
             val adapter = CharacterRecyclerAdapter(object : CharacterClickListener{
                 override fun onCharacterClick(character: CharacterResponseItem) {
 
@@ -58,7 +60,21 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
             })
             binding.characterRv.adapter = adapter
             it?.let {
-                adapter.setCharacters(it)
+                adapter.setCharacters(it as ArrayList<CharacterResponseItem>)
+            }
+        })
+
+        viewModel.singleCharacterResponse.observe(viewLifecycleOwner, Observer {
+            val adapter = CharacterRecyclerAdapter(object : CharacterClickListener{
+                override fun onCharacterClick(character: CharacterResponseItem) {
+
+                }
+            })
+            binding.characterRv.adapter = adapter
+            it?.let {
+                val list = ArrayList<CharacterResponseItem>()
+                list.add(it)
+                adapter.setCharacters(list)
             }
         })
 
@@ -66,5 +82,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
             Toast.makeText(requireContext(),it,Toast.LENGTH_LONG).show()
         })
     }
+
+
 
 }
