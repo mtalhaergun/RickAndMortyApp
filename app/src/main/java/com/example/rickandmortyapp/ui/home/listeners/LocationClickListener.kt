@@ -1,4 +1,4 @@
-package com.example.rickandmortyapp.ui.home
+package com.example.rickandmortyapp.ui.home.listeners
 import com.example.rickandmortyapp.model.location.Result
 
 interface LocationClickListener {

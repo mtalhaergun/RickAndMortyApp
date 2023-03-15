@@ -1,10 +1,11 @@
-package com.example.rickandmortyapp.ui.home
+package com.example.rickandmortyapp.ui.home.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyapp.databinding.RecyclerLocationLayoutBinding
 import com.example.rickandmortyapp.model.location.Result
+import com.example.rickandmortyapp.ui.home.listeners.LocationClickListener
 
 class LocationRecyclerAdapter(
     private val listener : LocationClickListener

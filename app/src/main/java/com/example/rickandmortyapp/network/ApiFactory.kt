@@ -1,11 +1,18 @@
 package com.example.rickandmortyapp.network
 
+import com.example.rickandmortyapp.model.character.CharacterResponse
 import com.example.rickandmortyapp.model.location.LocationResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface ApiFactory {
 
     @GET("location")
     suspend fun getLocation() : LocationResponse
+
+    @GET("character/{ids}")
+    suspend fun getCharacters(
+        @Path("ids") ids : String
+    ) : CharacterResponse
 
 }

@@ -9,7 +9,7 @@
             type="com.example.rickandmortyapp.model.location.Result" />
         <variable
             name="locationClickListener"
-            type="com.example.rickandmortyapp.ui.home.LocationClickListener" />
+            type="com.example.rickandmortyapp.ui.home.listeners.LocationClickListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
