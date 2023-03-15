@@ -3,7 +3,6 @@ package com.example.rickandmortyapp.ui.home
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rickandmortyapp.model.character.CharacterResponse
 import com.example.rickandmortyapp.model.character.CharacterResponseItem
 import com.example.rickandmortyapp.model.location.LocationResponse
 import com.example.rickandmortyapp.network.NetworkResult
@@ -15,7 +14,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val repository: HomeRepository) : ViewModel() {
 
     val locationResponse : MutableLiveData<LocationResponse?> = MutableLiveData()
-    val singleCharacterResponse : MutableLiveData<CharacterResponseItem?> = MutableLiveData()
     val multipleCharacterResponse : MutableLiveData<List<CharacterResponseItem>?> = MutableLiveData()
     val error : MutableLiveData<String?> = MutableLiveData()
 
@@ -31,26 +29,31 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
         }
     }
 
-    fun getSingleCharacter(id : String) = viewModelScope.launch {
-        val request = repository.getSingleCharacter(id)
-        when(request){
-            is NetworkResult.Success -> {
-                singleCharacterResponse.value = request.data
+    fun getMultipleCharacters(ids: String, size: Int) = viewModelScope.launch {
+        when(size){
+            1 -> {
+                val request = repository.getSingleCharacter(ids)
+                when(request){
+                    is NetworkResult.Success -> {
+                        val list = ArrayList<CharacterResponseItem>()
+                        request.data?.let { list.add(it) }
+                        multipleCharacterResponse.value = list
+                    }
+                    else -> {
+                        error.value = request.message
+                    }
+                }
             }
             else -> {
-                error.value = request.message
-            }
-        }
-    }
-
-    fun getMultipleCharacters(ids : String) = viewModelScope.launch {
-        val request = repository.getMultipleCharacters(ids)
-        when(request){
-            is NetworkResult.Success -> {
-                multipleCharacterResponse.value = request.data
-            }
-            else -> {
-                error.value = request.message
+                val request = repository.getMultipleCharacters(ids)
+                when(request){
+                    is NetworkResult.Success -> {
+                        multipleCharacterResponse.value = request.data
+                    }
+                    else -> {
+                        error.value = request.message
+                    }
+                }
             }
         }
     }

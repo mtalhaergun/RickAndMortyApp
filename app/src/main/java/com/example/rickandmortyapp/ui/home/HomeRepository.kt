@@ -34,7 +34,6 @@ class HomeRepository @Inject constructor(private val apiFactory: ApiFactory) : B
                 }
             }
         }
-        println(ids)
         return ids
     }
 }

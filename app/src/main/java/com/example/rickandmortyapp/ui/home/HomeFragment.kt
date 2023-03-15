@@ -34,16 +34,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
         viewModel.locationResponse.observe(viewLifecycleOwner, Observer {
             val adapter = LocationRecyclerAdapter(object : LocationClickListener {
                 override fun onLocationClick(location: Result) {
-                    val characterIds = viewModel.selectIds(location.residents)
-                    if (characterIds != null && location.residents!!.size > 1) {
-                        viewModel.getMultipleCharacters(characterIds)
-                    }
-                    else if(characterIds != null && location.residents!!.size == 1){
-                        viewModel.getSingleCharacter(characterIds)
-                    }
-                    else{
-                        binding.characterRv.adapter = null
-                    }
+                      val characterIds = viewModel.selectIds(location.residents)
+                      if (characterIds != null) {
+                          viewModel.getMultipleCharacters(characterIds,location.residents!!.size)
+                      }
+                      else{
+                          binding.characterRv.adapter = null
+                      }
                 }
             })
             binding.locationRv.adapter = adapter
@@ -61,20 +58,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
             binding.characterRv.adapter = adapter
             it?.let {
                 adapter.setCharacters(it as ArrayList<CharacterResponseItem>)
-            }
-        })
-
-        viewModel.singleCharacterResponse.observe(viewLifecycleOwner, Observer {
-            val adapter = CharacterRecyclerAdapter(object : CharacterClickListener{
-                override fun onCharacterClick(character: CharacterResponseItem) {
-
-                }
-            })
-            binding.characterRv.adapter = adapter
-            it?.let {
-                val list = ArrayList<CharacterResponseItem>()
-                list.add(it)
-                adapter.setCharacters(list)
             }
         })
 
