@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.FragmentDetailBinding
+import com.example.rickandmortyapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,7 +20,6 @@ class DetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -28,7 +28,26 @@ class DetailFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
         binding.character = args.chrctr
+        binding.episodes.setText(splitEpisodes(args.chrctr.episode))
         return binding.root
+    }
+
+    fun splitEpisodes(episodeList : List<String?>?) : String?{
+        var epList: List<String>?
+        var episodes : String? = null
+        if (episodeList != null) {
+            for(item in episodeList){
+                if (item != null) {
+                    epList = item.split(Constants.DELIMITEREPISODE)
+                    if(episodes == null){
+                        episodes = epList[1]
+                    }else{
+                        episodes = episodes + ", " + epList[1]
+                    }
+                }
+            }
+        }
+        return episodes
     }
 
 }

@@ -35,13 +35,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
         viewModel.locationResponse.observe(viewLifecycleOwner, Observer {
             val adapter = LocationRecyclerAdapter(object : LocationClickListener {
                 override fun onLocationClick(location: Result) {
-                      val characterIds = viewModel.selectIds(location.residents)
-                      if (characterIds != null) {
-                          viewModel.getMultipleCharacters(characterIds,location.residents!!.size)
-                      }
-                      else{
-                          binding.characterRv.adapter = null
-                      }
+
+                    val characterIds = viewModel.selectIds(location.residents)
+                    if (characterIds != null) {
+                        viewModel.getMultipleCharacters(characterIds,location.residents!!.size)
+                    }
+                    else{
+                        binding.characterRv.adapter = null
+                    }
                 }
             })
             binding.locationRv.adapter = adapter
