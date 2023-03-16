@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.navArgs
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailFragment : Fragment() {
 
     private lateinit var binding : FragmentDetailBinding
+    private val args by navArgs<DetailFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,7 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
-
+        binding.character = args.chrctr
         return binding.root
     }
 

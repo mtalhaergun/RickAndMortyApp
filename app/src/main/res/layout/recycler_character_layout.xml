@@ -42,6 +42,7 @@
                 android:layout_marginBottom="8dp"
                 android:contentDescription="@string/app_name"
                 android:padding="5dp"
+                load_image="@{String.valueOf(character.image)}"
                 android:src="@drawable/ic_launcher_background" />
 
             <TextView

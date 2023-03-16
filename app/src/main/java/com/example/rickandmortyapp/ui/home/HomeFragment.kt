@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.example.rickandmortyapp.base.BaseFragment
 import com.example.rickandmortyapp.databinding.FragmentHomeBinding
 import com.example.rickandmortyapp.model.character.CharacterResponseItem
@@ -52,7 +53,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
         viewModel.multipleCharacterResponse.observe(viewLifecycleOwner, Observer {
             val adapter = CharacterRecyclerAdapter(object : CharacterClickListener{
                 override fun onCharacterClick(character: CharacterResponseItem) {
-
+                    val navigation = HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
+                    Navigation.findNavController(requireView()).navigate(navigation)
                 }
             })
             binding.characterRv.adapter = adapter
