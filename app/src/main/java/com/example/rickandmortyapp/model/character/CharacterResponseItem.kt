@@ -2,6 +2,7 @@ package com.example.rickandmortyapp.model.character
 
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class CharacterResponseItem(
     @SerializedName("created")
@@ -28,4 +29,6 @@ data class CharacterResponseItem(
     val type: String?,
     @SerializedName("url")
     val url: String?
-)
+) : Serializable{
+
+}
