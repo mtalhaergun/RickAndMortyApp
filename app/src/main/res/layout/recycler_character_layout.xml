@@ -57,30 +57,16 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/genderName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="4dp"
+            <ImageView
+                android:id="@+id/genderImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_below="@id/characterName"
-                android:layout_toEndOf="@id/characterImage"
-                android:text="Gender:"
-                android:textColor="@color/location_border_text"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="35dp"
+                app:srcCompat="@drawable/ic_launcher_background" />
 
-            <TextView
-                android:id="@+id/gender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="4dp"
-                android:layout_below="@id/characterName"
-                android:layout_toEndOf="@id/genderName"
-                android:text="@{character.gender}"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
 
         </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>

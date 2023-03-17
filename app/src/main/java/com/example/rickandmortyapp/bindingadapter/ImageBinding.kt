@@ -2,6 +2,7 @@ package com.example.rickandmortyapp.bindingadapter
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.utils.Extensions.loadImage
 
 class ImageBinding {
@@ -13,5 +14,6 @@ class ImageBinding {
             val imageUrl = characterImage
             imageView.loadImage(imageUrl)
         }
+
     }
 }

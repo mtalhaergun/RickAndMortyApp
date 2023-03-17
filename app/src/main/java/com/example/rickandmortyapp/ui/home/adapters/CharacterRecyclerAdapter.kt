@@ -3,6 +3,7 @@ package com.example.rickandmortyapp.ui.home.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.RecyclerCharacterLayoutBinding
 import com.example.rickandmortyapp.model.character.CharacterResponseItem
 import com.example.rickandmortyapp.ui.home.listeners.CharacterClickListener
@@ -16,6 +17,16 @@ class CharacterRecyclerAdapter (private val listener : CharacterClickListener) :
         fun bind(listener: CharacterClickListener, character : CharacterResponseItem){
             binding.character = character
             binding.characterClickListener = listener
+            val genderMap = mapOf(
+                "Male" to R.drawable.male_logo,
+                "Female" to R.drawable.female_logo,
+                "Genderless" to R.drawable.genderless_logo,
+                "unknown" to R.drawable.unknown_logo
+            )
+            val genderImage = genderMap[character.gender]
+            if (genderImage != null) {
+                binding.genderImage.setImageResource(genderImage)
+            }
             binding.executePendingBindings()
         }
 
@@ -39,4 +50,5 @@ class CharacterRecyclerAdapter (private val listener : CharacterClickListener) :
         characters = list
         notifyDataSetChanged()
     }
+
 }
