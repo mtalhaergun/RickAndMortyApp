@@ -32,18 +32,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/characterImage"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/characterImageCard"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/app_name"
-                android:padding="5dp"
-                load_image="@{String.valueOf(character.image)}"
-                android:src="@drawable/ic_launcher_background" />
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="64dp"
+                app:strokeWidth="3dp"
+                app:strokeColor="@color/location_border_text">
+
+                <ImageView
+                    android:id="@+id/characterImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    load_image="@{String.valueOf(character.image)}"
+                    android:src="@drawable/ic_launcher_background" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/characterName"
@@ -52,7 +61,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_toEndOf="@id/characterImage"
+                android:layout_toEndOf="@id/characterImageCard"
                 android:layout_alignParentEnd="true"
                 android:text="@{character.name}"
                 android:textColor="@color/location_border_text"
