@@ -51,20 +51,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_toEndOf="@id/characterImage"
+                android:layout_alignParentEnd="true"
                 android:text="@{character.name}"
                 android:textColor="@color/location_border_text"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/genderImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_below="@id/characterName"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="15dp"
                 app:srcCompat="@drawable/ic_launcher_background" />
 
 

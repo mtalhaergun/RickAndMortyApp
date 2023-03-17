@@ -19,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
     FragmentHomeBinding::inflate
 ) {
+    var firstLocation : List<String?>? = null
 
     override val viewModel by viewModels<HomeViewModel>()
 
@@ -33,6 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
 
     override fun observeEvents() {
         viewModel.locationResponse.observe(viewLifecycleOwner, Observer {
+
             val adapter = LocationRecyclerAdapter(object : LocationClickListener {
                 override fun onLocationClick(location: Result) {
 
@@ -46,6 +48,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
                 }
             })
             binding.locationRv.adapter = adapter
+            if (it != null && firstLocation == null) {
+                firstLocation = it.results?.get(0)?.residents
+                val ids = viewModel.selectIds(firstLocation)
+                if (ids != null) {
+                    viewModel.getMultipleCharacters(ids,firstLocation!!.size)
+                }
+            }
             it?.let {
                 adapter.setLocations(it.results as List<Result>)
             }
