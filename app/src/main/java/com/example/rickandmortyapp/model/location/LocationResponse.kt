@@ -7,5 +7,5 @@ data class LocationResponse(
     @SerializedName("info")
     val info: İnfo?,
     @SerializedName("results")
-    val results: List<Result?>?
+    val results: List<Result>
 )

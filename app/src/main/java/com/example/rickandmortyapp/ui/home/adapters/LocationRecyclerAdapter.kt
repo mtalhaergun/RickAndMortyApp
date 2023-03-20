@@ -3,6 +3,8 @@ package com.example.rickandmortyapp.ui.home.adapters
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortyapp.databinding.RecyclerLocationLayoutBinding
 import com.example.rickandmortyapp.model.location.Result
@@ -10,9 +12,21 @@ import com.example.rickandmortyapp.ui.home.listeners.LocationClickListener
 
 class LocationRecyclerAdapter(
     private val listener : LocationClickListener
-    ) : RecyclerView.Adapter<LocationRecyclerAdapter.LocationVH>() {
+    ) : PagingDataAdapter<Result,LocationRecyclerAdapter.LocationVH>(diffCallback) {
 
-    private var locations = emptyList<Result>()
+
+    companion object{
+        val diffCallback = object : DiffUtil.ItemCallback<Result>(){
+            override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+                return oldItem == newItem
+            }
+
+        }
+    }
 
     class LocationVH(private val binding : RecyclerLocationLayoutBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -32,15 +46,10 @@ class LocationRecyclerAdapter(
 
 
     override fun onBindViewHolder(holder: LocationVH, position: Int) {
-        holder.bind(listener,locations[position])
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(listener,currentItem)
+        }
     }
 
-    override fun getItemCount(): Int {
-        return locations.size
-    }
-
-    fun setLocations(list : List<Result>){
-        locations = list
-        notifyDataSetChanged()
-    }
 }

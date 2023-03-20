@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val apiFactory: ApiFactory) : BaseRepository() {
 
-    suspend fun getLocation() = safeApiRequest {
-        apiFactory.getLocation()
+    suspend fun getLocation(page : Int) = safeApiRequest{
+        apiFactory.getLocation(page)
     }
 
     suspend fun getMultipleCharacters(ids : String) = safeApiRequest {
@@ -19,19 +19,15 @@ class HomeRepository @Inject constructor(private val apiFactory: ApiFactory) : B
         apiFactory.getCharacter(id)
     }
 
-    fun selectIds(residents : List<String?>?) : String?{
+    fun selectIds(residents : List<String>) : String?{
         var idList: List<String>?
         var ids : String? = null
-        if (residents != null) {
-            for(item in residents){
-                if (item != null) {
-                    idList = item.split(DELIMITER)
-                    if(ids == null){
-                        ids = idList[1]
-                    }else{
-                        ids = ids + "," + idList[1]
-                    }
-                }
+        for(item in residents){
+            idList = item.split(DELIMITER)
+            if(ids == null){
+                ids = idList[1]
+            }else{
+                ids = ids + "," + idList[1]
             }
         }
         return ids

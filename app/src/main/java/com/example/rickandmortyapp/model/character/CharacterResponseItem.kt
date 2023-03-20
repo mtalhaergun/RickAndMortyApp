@@ -6,29 +6,29 @@ import java.io.Serializable
 
 data class CharacterResponseItem(
     @SerializedName("created")
-    val created: String?,
+    val created: String,
     @SerializedName("episode")
-    val episode: List<String?>?,
+    val episode: List<String>,
     @SerializedName("gender")
-    val gender: String?,
+    val gender: String,
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("image")
-    val image: String?,
+    val image: String,
     @SerializedName("location")
-    val location: Location?,
+    val location: Location,
     @SerializedName("name")
-    val name: String?,
+    val name: String,
     @SerializedName("origin")
-    val origin: Origin?,
+    val origin: Origin,
     @SerializedName("species")
-    val species: String?,
+    val species: String,
     @SerializedName("status")
-    val status: String?,
+    val status: String,
     @SerializedName("type")
-    val type: String?,
+    val type: String,
     @SerializedName("url")
-    val url: String?
+    val url: String
 ) : Serializable{
 
 }
