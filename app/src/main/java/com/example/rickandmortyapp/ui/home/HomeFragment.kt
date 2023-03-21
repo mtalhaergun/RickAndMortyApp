@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.paging.PagingData
 import androidx.paging.filter
+import androidx.paging.insertSeparators
 import androidx.paging.map
 import com.example.rickandmortyapp.base.BaseFragment
 import com.example.rickandmortyapp.databinding.FragmentHomeBinding
@@ -27,7 +28,8 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-    private var firstLocation : List<String?>? = null
+    private var firstLocation : List<String> = emptyList()
+    private var firstOpen : Boolean = true
     private lateinit var adapterLocation: LocationRecyclerAdapter
     private lateinit var binding : FragmentHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
@@ -35,7 +37,6 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        viewModel.getLocation()
-
 
     }
 
@@ -56,32 +57,6 @@ class HomeFragment : Fragment() {
     }
 
     fun observeEvents() {
-//        viewModel.locationResponse.observe(viewLifecycleOwner, Observer {
-//
-//            val adapter = LocationRecyclerAdapter(object : LocationClickListener {
-//                override fun onLocationClick(location: Result) {
-//
-//                    val characterIds = viewModel.selectIds(location.residents)
-//                    if (characterIds != null) {
-//                        viewModel.getMultipleCharacters(characterIds,location.residents!!.size)
-//                    }
-//                    else{
-//                        binding.characterRv.adapter = null
-//                    }
-//                }
-//            })
-//            binding.locationRv.adapter = adapter
-//            if (it != null && firstLocation == null) {
-//                firstLocation = it.results?.get(0)?.residents
-//                val ids = viewModel.selectIds(firstLocation)
-//                if (ids != null) {
-//                    viewModel.getMultipleCharacters(ids,firstLocation!!.size)
-//                }
-//            }
-//            it?.let {
-//                adapter.setLocations(it.results as List<Result>)
-//            }
-//        })
 
         viewModel.multipleCharacterResponse.observe(viewLifecycleOwner, Observer {
             val adapter = CharacterRecyclerAdapter(object : CharacterClickListener{
@@ -99,6 +74,16 @@ class HomeFragment : Fragment() {
         viewModel.error.observe(viewLifecycleOwner, Observer {
             Toast.makeText(requireContext(),it,Toast.LENGTH_LONG).show()
         })
+
+        viewModel.firstLocation.observe(viewLifecycleOwner, Observer {
+            if(firstOpen){
+                firstOpen = false
+                val ids = viewModel.selectIds(it)
+                if (ids != null) {
+                    viewModel.getMultipleCharacters(ids, it.size)
+                }
+            }
+        })
     }
 
     private fun createRv(){
@@ -115,6 +100,7 @@ class HomeFragment : Fragment() {
 
         })
         binding.locationRv.adapter = adapterLocation
+        viewModel.getFirstLocation()
 //        if (firstLocation == null) {
 //            firstLocation = it.results?.get(0)?.residents
 //            val ids = viewModel.selectIds(firstLocation)
@@ -124,13 +110,11 @@ class HomeFragment : Fragment() {
 //        }
     }
 
-    private fun loadData(){
+    private fun loadData() {
         lifecycleScope.launch {
-            viewModel.listLocation.collect {
-                adapterLocation.submitData(it)
+            viewModel.listLocation.collect { pagingData ->
+                adapterLocation.submitData(pagingData)
             }
         }
     }
-
-
 }

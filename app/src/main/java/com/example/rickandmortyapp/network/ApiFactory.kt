@@ -3,6 +3,7 @@ package com.example.rickandmortyapp.network
 import com.example.rickandmortyapp.model.character.CharacterResponse
 import com.example.rickandmortyapp.model.character.CharacterResponseItem
 import com.example.rickandmortyapp.model.location.LocationResponse
+import com.example.rickandmortyapp.model.location.Result
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.GET
@@ -15,6 +16,9 @@ interface ApiFactory {
     suspend fun getLocation(
         @Query("page") page : Int
     ) : LocationResponse
+
+    @GET("location/1")
+    suspend fun getFirstLocation() : Result
 
     @GET("character/{ids}")
     suspend fun getMultipleCharacters(

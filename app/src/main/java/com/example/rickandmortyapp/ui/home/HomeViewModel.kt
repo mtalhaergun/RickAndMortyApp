@@ -20,8 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: HomeRepository) : ViewModel() {
 
-    val locationResponse : MutableLiveData<LocationResponse?> = MutableLiveData()
     val multipleCharacterResponse : MutableLiveData<List<CharacterResponseItem>?> = MutableLiveData()
+    val firstLocation : MutableLiveData<List<String>> = MutableLiveData()
     val error : MutableLiveData<String?> = MutableLiveData()
 
 
@@ -29,17 +29,6 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
         LocationPagingSource(repository)
     }.flow.cachedIn(viewModelScope)
 
-//    fun getLocation() = viewModelScope.launch {
-//        val request = repository.getLocation()
-//        when(request){
-//            is NetworkResult.Success -> {
-//                locationResponse.value = request.data
-//            }
-//            is NetworkResult.Error -> {
-//                error.value = request.message
-//            }
-//        }
-//    }
 
     fun getMultipleCharacters(ids: String, size: Int) = viewModelScope.launch {
         when(size){
@@ -66,6 +55,18 @@ class HomeViewModel @Inject constructor(private val repository: HomeRepository) 
                         error.value = request.message
                     }
                 }
+            }
+        }
+    }
+
+    fun getFirstLocation()  = viewModelScope.launch{
+        val request = repository.getFirstLocation()
+        when(request){
+            is NetworkResult.Success -> {
+                firstLocation.value = request.data?.residents
+            }
+            else -> {
+                error.value = request.message
             }
         }
     }

@@ -1,14 +1,19 @@
 package com.example.rickandmortyapp.paging
 
+import androidx.fragment.app.viewModels
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.rickandmortyapp.network.ApiFactory
 import com.example.rickandmortyapp.model.location.Result
 import com.example.rickandmortyapp.network.NetworkResult
 import com.example.rickandmortyapp.ui.home.HomeRepository
+import com.example.rickandmortyapp.ui.home.HomeViewModel
 
 
 class LocationPagingSource(private val repository: HomeRepository) : PagingSource<Int,Result>() {
+
+
+
     override fun getRefreshKey(state: PagingState<Int, Result>): Int? {
         return null
     }

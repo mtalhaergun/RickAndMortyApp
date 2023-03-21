@@ -19,6 +19,10 @@ class HomeRepository @Inject constructor(private val apiFactory: ApiFactory) : B
         apiFactory.getCharacter(id)
     }
 
+    suspend fun getFirstLocation() = safeApiRequest {
+        apiFactory.getFirstLocation()
+    }
+
     fun selectIds(residents : List<String>) : String?{
         var idList: List<String>?
         var ids : String? = null
