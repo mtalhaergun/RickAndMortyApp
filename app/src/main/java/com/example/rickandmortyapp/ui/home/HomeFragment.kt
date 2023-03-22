@@ -26,11 +26,13 @@ import com.example.rickandmortyapp.databinding.FragmentHomeBinding
 import com.example.rickandmortyapp.model.character.CharacterResponseItem
 import com.example.rickandmortyapp.model.location.Result
 import com.example.rickandmortyapp.ui.home.adapters.CharacterRecyclerAdapter
+import com.example.rickandmortyapp.ui.home.adapters.LoadAdapter
 import com.example.rickandmortyapp.ui.home.adapters.LocationRecyclerAdapter
 import com.example.rickandmortyapp.ui.home.listeners.CharacterClickListener
 import com.example.rickandmortyapp.ui.home.listeners.LocationClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -73,27 +75,29 @@ class HomeFragment : Fragment() {
 
         viewModel.multipleCharacterResponse.observe(viewLifecycleOwner, Observer {
             isLoading = true
-            binding.progressBarCharacter.visibility = View.VISIBLE
-            if(binding.characterRv.adapter == null){
-                binding.characterRv.adapter = adapterCharacter
-            }
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.progressBarCharacter.visibility = View.VISIBLE
+                if(binding.characterRv.adapter == null){
+                    binding.characterRv.adapter = adapterCharacter
+                }
 
-            it?.let {
-                var start = (page-1)*limit
-                var end = (page*(limit))-1
+                it?.let {
+                    var start = (page-1)*limit
+                    var end = (page*(limit))-1
 
-                if(characterPagingList.size != it.lastIndex+1){
-                    for(i in start..end){
-                        if(i < it.lastIndex+1){
-                            characterPagingList.add(it[i])
+                    if(characterPagingList.size != it.lastIndex+1){
+                        for(i in start..end){
+                            if(i < it.lastIndex+1){
+                                characterPagingList.add(it[i])
+                            }
                         }
                     }
+                    adapterCharacter.setCharacters(characterPagingList)
+                    tempList = it as ArrayList<CharacterResponseItem>
                 }
-                adapterCharacter.setCharacters(characterPagingList)
-                tempList = it as ArrayList<CharacterResponseItem>
-            }
+                isLoading = false
+            }, 500)
 
-            isLoading = false
             binding.progressBarCharacter.visibility = View.GONE
 
             binding.characterRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
@@ -137,15 +141,20 @@ class HomeFragment : Fragment() {
                     binding.characterRv.adapter = null
                     characterPagingList.clear()
                     page = 1
+                    binding.gifNoLocation.visibility = View.GONE
                     viewModel.getMultipleCharacters(characterIds,location.residents.size)
                 }
                 else{
                     binding.characterRv.adapter = null
+                    Toast.makeText(requireContext(),"Empty Location",Toast.LENGTH_LONG).show()
+                    binding.gifNoLocation.visibility = View.VISIBLE
                 }
             }
 
         })
         binding.locationRv.adapter = adapterLocation
+        binding.locationRv.adapter = adapterLocation.withLoadStateFooter(LoadAdapter())
+
         adapterCharacter = CharacterRecyclerAdapter(object : CharacterClickListener{
             override fun onCharacterClick(character: CharacterResponseItem) {
                 val navigation = HomeFragmentDirections.actionHomeFragmentToDetailFragment(character)
@@ -153,6 +162,7 @@ class HomeFragment : Fragment() {
             }
         })
         binding.characterRv.adapter = adapterCharacter
+        binding.gifNoLocation.visibility = View.GONE
         viewModel.getFirstLocation()
     }
 

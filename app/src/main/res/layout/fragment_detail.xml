@@ -130,11 +130,11 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:text="Episodes:"
-                android:textStyle="bold"
-                android:textSize="22sp"
                 android:textColor="@color/location_border_text"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                app:layout_constraintTop_toBottomOf="@+id/location" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -152,57 +152,71 @@
 
             <TextView
                 android:id="@+id/status"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="32dp"
                 android:text="@{character.status}"
-                android:textSize="22sp"
                 android:textColor="@color/white"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/imageCharacterCard" />
+
             <TextView
                 android:id="@+id/specy"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="32dp"
                 android:text="@{character.species}"
-                android:textSize="22sp"
                 android:textColor="@color/white"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/status" />
+
             <TextView
                 android:id="@+id/gender"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="32dp"
                 android:text="@{character.gender}"
-                android:textSize="22sp"
                 android:textColor="@color/white"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/specy" />
+
             <TextView
                 android:id="@+id/origin"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="32dp"
                 android:text="@{character.origin.name}"
-                android:textSize="22sp"
                 android:textColor="@color/white"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/gender" />
+
             <TextView
                 android:id="@+id/location"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginEnd="32dp"
                 android:text="@{character.location.name}"
-                android:textSize="22sp"
                 android:textColor="@color/white"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/origin" />
 

@@ -9,6 +9,8 @@
     android:background="@color/background"
     >
 
+
+
 <!--    <androidx.core.widget.NestedScrollView-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent"-->
@@ -21,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/homeLogo"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_gravity="center"
                 android:src="@drawable/home_logo"/>
 
@@ -30,9 +32,15 @@
                 android:id="@+id/locationRv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gifNoLocation"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:src="@drawable/gifnolocation"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/characterRv"
