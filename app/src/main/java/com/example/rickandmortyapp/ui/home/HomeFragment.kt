@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -37,7 +38,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var adapterLocation: LocationRecyclerAdapter
     private lateinit var adapterCharacter : CharacterRecyclerAdapter
-    private lateinit var binding : FragmentHomeBinding
+    private var _binding : FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private val viewModel by viewModels<HomeViewModel>()
     private var firstOpen : Boolean = true
     private var characterPagingList = arrayListOf<CharacterResponseItem>()
@@ -49,7 +51,6 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
     }
 
     override fun onCreateView(
@@ -57,7 +58,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater,container,false)
+        _binding = FragmentHomeBinding.inflate(inflater,container,false)
         return binding.root
     }
 
@@ -77,23 +78,23 @@ class HomeFragment : Fragment() {
                 binding.characterRv.adapter = adapterCharacter
             }
 
-                it?.let {
-                    var start = (page-1)*limit
-                    var end = (page*(limit))-1
+            it?.let {
+                var start = (page-1)*limit
+                var end = (page*(limit))-1
 
+                if(characterPagingList.size != it.lastIndex+1){
                     for(i in start..end){
                         if(i < it.lastIndex+1){
                             characterPagingList.add(it[i])
-                            println(characterPagingList[i].name)
                         }
                     }
-                    adapterCharacter.setCharacters(characterPagingList)
-                    println(it.lastIndex)
-                    tempList = it as ArrayList<CharacterResponseItem>
                 }
+                adapterCharacter.setCharacters(characterPagingList)
+                tempList = it as ArrayList<CharacterResponseItem>
+            }
 
-                isLoading = false
-                binding.progressBarCharacter.visibility = View.GONE
+            isLoading = false
+            binding.progressBarCharacter.visibility = View.GONE
 
             binding.characterRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -103,7 +104,7 @@ class HomeFragment : Fragment() {
                     val total = adapterCharacter.itemCount
 
                     if(!isLoading){
-                        if((visibleItemCount + pastVisibleItem) > total){
+                        if((visibleItemCount + pastVisibleItem) > total && (total%limit) == 0){
                             page++
                             viewModel.multipleCharacterResponse.value = tempList
                         }
@@ -161,5 +162,10 @@ class HomeFragment : Fragment() {
                 adapterLocation.submitData(pagingData)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

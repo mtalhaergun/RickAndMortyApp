@@ -15,7 +15,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
 
-    private lateinit var binding : FragmentDetailBinding
+    private var _binding : FragmentDetailBinding?= null
+    private val binding get() = _binding!!
     private val args by navArgs<DetailFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +27,7 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
+        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
         binding.character = args.chrctr
         binding.episodes.setText(splitEpisodes(args.chrctr.episode))
         return binding.root
@@ -48,6 +49,11 @@ class DetailFragment : Fragment() {
             }
         }
         return episodes
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
