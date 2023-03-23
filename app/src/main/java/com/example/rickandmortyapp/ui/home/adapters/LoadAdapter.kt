@@ -1,5 +1,7 @@
 package com.example.rickandmortyapp.ui.home.adapters
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +19,6 @@ class LoadAdapter() : LoadStateAdapter<LoadAdapter.ViewHolder>() {
     inner class ViewHolder() : RecyclerView.ViewHolder(binding.root){
         fun bind(states : LoadState){
             binding.progressBarLocation.isVisible = states is LoadState.Loading
-            Log.d("Scroll",states.endOfPaginationReached.toString())
         }
     }
 

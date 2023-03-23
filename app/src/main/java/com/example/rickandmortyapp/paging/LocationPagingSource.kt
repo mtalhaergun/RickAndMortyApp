@@ -25,9 +25,9 @@ class LocationPagingSource(private val repository: HomeRepository) : PagingSourc
             val data = response.data?.results ?: emptyList()
             val responseData = mutableListOf<Result>()
             responseData.addAll(data)
-            
+
             LoadResult.Page(
-                data = responseData,
+                data = data,
                 prevKey = if(currentPage == 1) null else -1,
                 nextKey = currentPage.plus(1)
             )

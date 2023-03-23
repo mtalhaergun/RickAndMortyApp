@@ -61,12 +61,13 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater,container,false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        createRv()
+        if(firstOpen) createRv()
         loadData()
         observeEvents()
     }
@@ -136,24 +137,24 @@ class HomeFragment : Fragment() {
     private fun createRv(){
         adapterLocation = LocationRecyclerAdapter(object : LocationClickListener{
             override fun onLocationClick(location: Result) {
+                binding.gifNoLocation.visibility = View.GONE
                 val characterIds = viewModel.selectIds(location.residents)
                 if (characterIds != null) {
                     binding.characterRv.adapter = null
                     characterPagingList.clear()
                     page = 1
-                    binding.gifNoLocation.visibility = View.GONE
                     viewModel.getMultipleCharacters(characterIds,location.residents.size)
                 }
                 else{
                     binding.characterRv.adapter = null
-                    Toast.makeText(requireContext(),"Empty Location",Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),"Empty Location",Toast.LENGTH_SHORT).show()
                     binding.gifNoLocation.visibility = View.VISIBLE
                 }
             }
 
         })
         binding.locationRv.adapter = adapterLocation
-        binding.locationRv.adapter = adapterLocation.withLoadStateFooter(LoadAdapter())
+//        binding.locationRv.adapter = adapterLocation.withLoadStateFooter(LoadAdapter())
 
         adapterCharacter = CharacterRecyclerAdapter(object : CharacterClickListener{
             override fun onCharacterClick(character: CharacterResponseItem) {
@@ -162,7 +163,6 @@ class HomeFragment : Fragment() {
             }
         })
         binding.characterRv.adapter = adapterCharacter
-        binding.gifNoLocation.visibility = View.GONE
         viewModel.getFirstLocation()
     }
 
@@ -172,6 +172,7 @@ class HomeFragment : Fragment() {
                 adapterLocation.submitData(pagingData)
             }
         }
+        binding.locationRv.adapter = adapterLocation
     }
 
     override fun onDestroyView() {

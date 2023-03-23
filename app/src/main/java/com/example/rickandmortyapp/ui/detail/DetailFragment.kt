@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.FragmentDetailBinding
+import com.example.rickandmortyapp.ui.home.HomeFragmentDirections
 import com.example.rickandmortyapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
