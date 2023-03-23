@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.databinding.FragmentDetailBinding
@@ -33,8 +34,13 @@ class DetailFragment : Fragment() {
         _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_detail,container,false)
         binding.character = args.chrctr
         binding.episodes.setText(splitEpisodes(args.chrctr.episode))
+        binding.backButton.setOnClickListener {
+            findNavController().popBackStack()
+        }
         return binding.root
     }
+
+
 
     fun splitEpisodes(episodeList : List<String?>?) : String?{
         var epList: List<String>?
