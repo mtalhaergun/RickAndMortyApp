@@ -13,7 +13,7 @@ import com.example.rickandmortyapp.ui.home.listeners.LocationClickListener
 
 class LocationRecyclerAdapter(
     private val listener : LocationClickListener
-    ) : PagingDataAdapter<Result,LocationRecyclerAdapter.LocationVH>(diffCallback) {
+) : PagingDataAdapter<Result,LocationRecyclerAdapter.LocationVH>(diffCallback) {
 
     var selectedPosition : Int = 0
 
@@ -32,13 +32,12 @@ class LocationRecyclerAdapter(
 
     class LocationVH(private val binding : RecyclerLocationLayoutBinding): RecyclerView.ViewHolder(binding.root) {
 
-
         fun onClick(position: Int, selectedPosition: Int,listener : LocationClickListener, location : Result){
+
             if (selectedPosition == position) {
                 binding.locationCard.strokeColor = Color.parseColor("#FF018786")
                 binding.locationCard.setCardBackgroundColor(Color.parseColor("#B2E850"))
                 binding.locationName.setTextColor(Color.parseColor("#FF018786"))
-
             } else {
                 binding.locationCard.strokeColor = Color.parseColor("#B2E850")
                 binding.locationCard.setCardBackgroundColor(Color.parseColor("#FF018786"))
@@ -58,17 +57,15 @@ class LocationRecyclerAdapter(
         return LocationVH(binding)
     }
 
-
     override fun onBindViewHolder(holder: LocationVH, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
-
             holder.onClick(position,selectedPosition,listener,currentItem)
         }
 
         holder.itemView.setOnClickListener {
             selectedPosition = if (position == selectedPosition) {
-                -1
+                selectedPosition
             } else {
                 position
             }

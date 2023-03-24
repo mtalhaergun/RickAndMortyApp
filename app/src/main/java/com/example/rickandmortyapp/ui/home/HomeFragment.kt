@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<HomeViewModel>()
     private var firstOpen : Boolean = true
+    private var sameLocationClick : Result? = null
     private var characterPagingList = arrayListOf<CharacterResponseItem>()
     private var tempList = arrayListOf<CharacterResponseItem>()
 
@@ -138,20 +139,22 @@ class HomeFragment : Fragment() {
     private fun createRv(){
         adapterLocation = LocationRecyclerAdapter(object : LocationClickListener{
             override fun onLocationClick(location: Result) {
-
-                binding.gifNoLocation.visibility = View.GONE
-                val characterIds = viewModel.selectIds(location.residents)
-                if (characterIds != null) {
-                    binding.characterRv.adapter = null
-                    characterPagingList.clear()
-                    page = 1
-                    tempPage = 0
-                    viewModel.getMultipleCharacters(characterIds,location.residents.size)
-                }
-                else{
-                    binding.characterRv.adapter = null
-                    Toast.makeText(requireContext(),"Empty Location",Toast.LENGTH_SHORT).show()
-                    binding.gifNoLocation.visibility = View.VISIBLE
+                if(sameLocationClick != location){
+                    sameLocationClick = location
+                    binding.gifNoLocation.visibility = View.GONE
+                    val characterIds = viewModel.selectIds(location.residents)
+                    if (characterIds != null) {
+                        binding.characterRv.adapter = null
+                        characterPagingList.clear()
+                        page = 1
+                        tempPage = 0
+                        viewModel.getMultipleCharacters(characterIds,location.residents.size)
+                    }
+                    else{
+                        binding.characterRv.adapter = null
+                        Toast.makeText(requireContext(),"Empty Location",Toast.LENGTH_SHORT).show()
+                        binding.gifNoLocation.visibility = View.VISIBLE
+                    }
                 }
             }
 
