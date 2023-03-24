@@ -34,8 +34,8 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/characterImageCard"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="12dp"
@@ -58,20 +58,20 @@
                 android:id="@+id/characterName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_toEndOf="@id/characterImageCard"
                 android:layout_alignParentEnd="true"
                 android:text="@{character.name}"
                 android:textColor="@color/location_border_text"
-                android:textSize="22sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/genderImage"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="80dp"

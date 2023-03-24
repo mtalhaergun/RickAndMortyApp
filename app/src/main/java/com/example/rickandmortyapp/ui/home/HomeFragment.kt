@@ -46,7 +46,9 @@ class HomeFragment : Fragment() {
     private var firstOpen : Boolean = true
     private var characterPagingList = arrayListOf<CharacterResponseItem>()
     private var tempList = arrayListOf<CharacterResponseItem>()
+
     var page = 1
+    var tempPage = 0
     var isLoading = false
     val limit = 10
 
@@ -76,30 +78,29 @@ class HomeFragment : Fragment() {
 
         viewModel.multipleCharacterResponse.observe(viewLifecycleOwner, Observer {
             isLoading = true
-            Handler(Looper.getMainLooper()).postDelayed({
-                binding.progressBarCharacter.visibility = View.VISIBLE
-                if(binding.characterRv.adapter == null){
-                    binding.characterRv.adapter = adapterCharacter
-                }
 
-                it?.let {
-                    var start = (page-1)*limit
-                    var end = (page*(limit))-1
+            if(binding.characterRv.adapter == null){
+                binding.characterRv.adapter = adapterCharacter
+            }
 
-                    if(characterPagingList.size != it.lastIndex+1){
-                        for(i in start..end){
-                            if(i < it.lastIndex+1){
-                                characterPagingList.add(it[i])
-                            }
+            it?.let {
+                var start = (page-1)*limit
+                var end = (page*(limit))-1
+
+                if(characterPagingList.size != it.lastIndex+1 && tempPage != page){
+                    for(i in start..end){
+                        if(i < it.lastIndex+1){
+                            characterPagingList.add(it[i])
                         }
                     }
-                    adapterCharacter.setCharacters(characterPagingList)
-                    tempList = it as ArrayList<CharacterResponseItem>
+                    tempPage = page
                 }
-                isLoading = false
-            }, 500)
-
-            binding.progressBarCharacter.visibility = View.GONE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    adapterCharacter.setCharacters(characterPagingList)
+                }, 500)
+                tempList = it as ArrayList<CharacterResponseItem>
+            }
+            isLoading = false
 
             binding.characterRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -144,6 +145,7 @@ class HomeFragment : Fragment() {
                     binding.characterRv.adapter = null
                     characterPagingList.clear()
                     page = 1
+                    tempPage = 0
                     viewModel.getMultipleCharacters(characterIds,location.residents.size)
                 }
                 else{
