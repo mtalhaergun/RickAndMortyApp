@@ -137,6 +137,7 @@ class HomeFragment : Fragment() {
     private fun createRv(){
         adapterLocation = LocationRecyclerAdapter(object : LocationClickListener{
             override fun onLocationClick(location: Result) {
+
                 binding.gifNoLocation.visibility = View.GONE
                 val characterIds = viewModel.selectIds(location.residents)
                 if (characterIds != null) {
