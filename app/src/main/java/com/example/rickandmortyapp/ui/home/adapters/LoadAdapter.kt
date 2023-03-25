@@ -17,8 +17,11 @@ class LoadAdapter() : LoadStateAdapter<LoadAdapter.ViewHolder>() {
     private lateinit var binding : LoadItemBinding
 
     inner class ViewHolder() : RecyclerView.ViewHolder(binding.root){
-        fun bind(states : LoadState){
+        fun bind(states : LoadState, holder : ViewHolder){
             binding.progressBarLocation.isVisible = states is LoadState.Loading
+            if(holder.layoutPosition == 126){
+                binding.progressBarLocation.isVisible = false
+            }
         }
     }
 
@@ -28,8 +31,6 @@ class LoadAdapter() : LoadStateAdapter<LoadAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, loadState: LoadState) {
-        holder.bind(loadState)
+        holder.bind(loadState,holder)
     }
-
-
 }

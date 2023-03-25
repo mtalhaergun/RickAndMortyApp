@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if(firstOpen) createRv()
-        loadData()
+        loadLocations()
         observeEvents()
     }
 
@@ -160,7 +160,6 @@ class HomeFragment : Fragment() {
 
         })
         binding.locationRv.adapter = adapterLocation
-//        binding.locationRv.adapter = adapterLocation.withLoadStateFooter(LoadAdapter())
 
         adapterCharacter = CharacterRecyclerAdapter(object : CharacterClickListener{
             override fun onCharacterClick(character: CharacterResponseItem) {
@@ -172,13 +171,14 @@ class HomeFragment : Fragment() {
         viewModel.getFirstLocation()
     }
 
-    private fun loadData() {
+    private fun loadLocations() {
         lifecycleScope.launch {
+            binding.locationRv.adapter = adapterLocation.withLoadStateFooter(LoadAdapter())
             viewModel.listLocation.collect { pagingData ->
                 adapterLocation.submitData(pagingData)
             }
         }
-        binding.locationRv.adapter = adapterLocation
+
     }
 
     override fun onDestroyView() {
