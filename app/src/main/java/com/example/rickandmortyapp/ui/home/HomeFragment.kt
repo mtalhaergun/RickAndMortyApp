@@ -1,5 +1,6 @@
 package com.example.rickandmortyapp.ui.home
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -74,6 +75,15 @@ class HomeFragment : Fragment() {
         loadLocations()
         observeEvents()
     }
+
+//    override fun onConfigurationChanged(newConfig: Configuration) {
+//        super.onConfigurationChanged(newConfig)
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            binding.homeLogo.visibility = View.GONE
+//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            binding.homeLogo.visibility = View.VISIBLE
+//        }
+//    }
 
     fun observeEvents() {
 

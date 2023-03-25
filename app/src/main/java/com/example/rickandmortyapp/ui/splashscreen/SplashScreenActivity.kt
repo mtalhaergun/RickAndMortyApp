@@ -22,7 +22,7 @@ class SplashScreenActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         firstOpen = this.getSharedPreferences("FirstOpen", Context.MODE_PRIVATE)
-        if(!firstOpen.getBoolean("firstopen",false)){
+        if(!firstOpen.getBoolean("firstopen",true)){
             binding.welcome.visibility = View.GONE
             binding.hello.visibility = View.VISIBLE
         }else{
