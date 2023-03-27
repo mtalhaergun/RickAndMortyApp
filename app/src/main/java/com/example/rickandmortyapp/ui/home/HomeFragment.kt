@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -41,7 +42,6 @@ class HomeFragment : Fragment() {
     private var tempList = arrayListOf<CharacterResponseItem>()
     var page = 1
     var tempPage = 0
-    var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +68,6 @@ class HomeFragment : Fragment() {
     fun observeEvents() {
 
         viewModel.multipleCharacterResponse.observe(viewLifecycleOwner, Observer {
-            isLoading = true
 
             if(binding.characterRv.adapter == null){
                 binding.characterRv.adapter = adapterCharacter
@@ -85,13 +84,14 @@ class HomeFragment : Fragment() {
                         }
                     }
                     tempPage = page
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        adapterCharacter.setCharacters(characterPagingList)
+                    }, 500)
                 }
-                Handler(Looper.getMainLooper()).postDelayed({
-                    adapterCharacter.setCharacters(characterPagingList)
-                }, 500)
+
                 tempList = it as ArrayList<CharacterResponseItem>
             }
-            isLoading = false
+
 
             binding.characterRv.addOnScrollListener(object : RecyclerView.OnScrollListener(){
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -100,12 +100,11 @@ class HomeFragment : Fragment() {
                     val pastVisibleItem = (binding.characterRv.layoutManager as? LinearLayoutManager)?.findFirstCompletelyVisibleItemPosition()!!
                     val total = adapterCharacter.itemCount
 
-                    if(!isLoading){
-                        if((visibleItemCount + pastVisibleItem) > total && (total%CHARACTERLIMIT) == 0){
-                            page++
-                            viewModel.multipleCharacterResponse.value = tempList
-                        }
+                    if((visibleItemCount + pastVisibleItem) > total && total != tempList.size){
+                        page++
+                        viewModel.multipleCharacterResponse.value = tempList
                     }
+
                     super.onScrolled(recyclerView, dx, dy)
                 }
             })

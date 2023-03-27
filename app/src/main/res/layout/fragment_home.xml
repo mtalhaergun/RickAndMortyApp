@@ -8,7 +8,8 @@
     tools:context=".ui.home.HomeFragment"
     android:background="@color/background">
 
-<!--    <ScrollView-->
+<!--    <androidx.core.widget.NestedScrollView-->
+<!--        android:id="@+id/nestedScroll"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent">-->
 
@@ -49,5 +50,5 @@
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
-<!--    </ScrollView>-->
+<!--    </androidx.core.widget.NestedScrollView>-->
 </LinearLayout>
