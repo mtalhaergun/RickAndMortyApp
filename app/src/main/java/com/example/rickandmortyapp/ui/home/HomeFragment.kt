@@ -1,28 +1,19 @@
 package com.example.rickandmortyapp.ui.home
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
-import androidx.paging.PagingData
-import androidx.paging.filter
-import androidx.paging.insertSeparators
-import androidx.paging.map
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rickandmortyapp.base.BaseFragment
 import com.example.rickandmortyapp.databinding.FragmentHomeBinding
 import com.example.rickandmortyapp.model.character.CharacterResponseItem
 import com.example.rickandmortyapp.model.location.Result
@@ -31,9 +22,9 @@ import com.example.rickandmortyapp.ui.home.adapters.LoadAdapter
 import com.example.rickandmortyapp.ui.home.adapters.LocationRecyclerAdapter
 import com.example.rickandmortyapp.ui.home.listeners.CharacterClickListener
 import com.example.rickandmortyapp.ui.home.listeners.LocationClickListener
+import com.example.rickandmortyapp.utils.Constants.CHARACTERLIMIT
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -48,11 +39,9 @@ class HomeFragment : Fragment() {
     private var sameLocationClick : Result? = null
     private var characterPagingList = arrayListOf<CharacterResponseItem>()
     private var tempList = arrayListOf<CharacterResponseItem>()
-
     var page = 1
     var tempPage = 0
     var isLoading = false
-    val limit = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,15 +65,6 @@ class HomeFragment : Fragment() {
         observeEvents()
     }
 
-//    override fun onConfigurationChanged(newConfig: Configuration) {
-//        super.onConfigurationChanged(newConfig)
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            binding.homeLogo.visibility = View.GONE
-//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            binding.homeLogo.visibility = View.VISIBLE
-//        }
-//    }
-
     fun observeEvents() {
 
         viewModel.multipleCharacterResponse.observe(viewLifecycleOwner, Observer {
@@ -95,8 +75,8 @@ class HomeFragment : Fragment() {
             }
 
             it?.let {
-                var start = (page-1)*limit
-                var end = (page*(limit))-1
+                var start = (page-1)*CHARACTERLIMIT
+                var end = (page*(CHARACTERLIMIT))-1
 
                 if(characterPagingList.size != it.lastIndex+1 && tempPage != page){
                     for(i in start..end){
@@ -121,7 +101,7 @@ class HomeFragment : Fragment() {
                     val total = adapterCharacter.itemCount
 
                     if(!isLoading){
-                        if((visibleItemCount + pastVisibleItem) > total && (total%limit) == 0){
+                        if((visibleItemCount + pastVisibleItem) > total && (total%CHARACTERLIMIT) == 0){
                             page++
                             viewModel.multipleCharacterResponse.value = tempList
                         }

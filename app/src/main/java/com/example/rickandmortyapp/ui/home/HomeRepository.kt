@@ -2,7 +2,7 @@ package com.example.rickandmortyapp.ui.home
 
 import com.example.rickandmortyapp.base.BaseRepository
 import com.example.rickandmortyapp.network.ApiFactory
-import com.example.rickandmortyapp.utils.Constants.DELIMITER
+import com.example.rickandmortyapp.utils.Constants.DELIMITERCHARACTER
 import javax.inject.Inject
 
 class HomeRepository @Inject constructor(private val apiFactory: ApiFactory) : BaseRepository() {
@@ -27,7 +27,7 @@ class HomeRepository @Inject constructor(private val apiFactory: ApiFactory) : B
         var idList: List<String>?
         var ids : String? = null
         for(item in residents){
-            idList = item.split(DELIMITER)
+            idList = item.split(DELIMITERCHARACTER)
             if(ids == null){
                 ids = idList[1]
             }else{
